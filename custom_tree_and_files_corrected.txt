@@ -1,0 +1,1035 @@
+/home/sam/github/nextjs-saas-starter
+├── app
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── (landing)
+│   │   ├── _components
+│   │   │   ├── footer.tsx
+│   │   │   └── navbar.tsx
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── layout.tsx
+│   └── (platform)
+│       ├── (auth)
+│       │   ├── layout.tsx
+│       │   ├── sign-in
+│       │   │   └── [[...sign-in]]
+│       │   │       └── page.tsx
+│       │   └── sign-up
+│       │       └── [[...sign-up]]
+│       │           └── page.tsx
+│       ├── _components
+│       │   ├── mobile-sidebar.tsx
+│       │   ├── navbar-routes.tsx
+│       │   ├── navbar.tsx
+│       │   ├── sidebar-item.tsx
+│       │   ├── sidebar-routes.tsx
+│       │   └── sidebar.tsx
+│       ├── layout.tsx
+│       └── (modules)
+│           └── module
+│               └── page.tsx
+├── code_report.py
+├── components
+│   ├── logo.tsx
+│   ├── mode-toggle.tsx
+│   └── ui
+│       ├── button.tsx
+│       ├── dropdown-menu.tsx
+│       └── sheet.tsx
+├── components.json
+├── custom_tree_and_files_corrected.txt
+├── .env
+├── .env.example
+├── .eslintrc.json
+├── .gitignore
+├── lib
+│   └── utils.ts
+├── middleware.ts
+├── next.config.mjs
+├── next-env.d.ts
+├── package.json
+├── package-lock.json
+├── postcss.config.js
+├── README.md
+├── tailwind.config.ts
+└── tsconfig.json
+
+16 directories, 40 files
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/.env.example ===
+
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=
+
+DATABASE_URL=
+
+NEXT_PUBLIC_UNSPLASH_ACCESS_KEY=
+
+STRIPE_API_KEY=
+
+NEXT_PUBLIC_APP_URL=
+
+STRIPE_WEBHOOK_SECRET=
+
+=== Content of /home/sam/github/nextjs-saas-starter/middleware.ts ===
+
+import { authMiddleware } from "@clerk/nextjs";
+
+export default authMiddleware({ publicRoutes: ["/"] });
+
+export const config = {
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+};
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/tailwind.config.ts ===
+
+import type { Config } from "tailwindcss"
+
+const config = {
+  darkMode: ["class"],
+  content: [
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
+	],
+  prefix: "",
+  theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
+    },
+  },
+  plugins: [require("tailwindcss-animate")],
+} satisfies Config
+
+export default config
+
+=== Content of /home/sam/github/nextjs-saas-starter/next-env.d.ts ===
+
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/basic-features/typescript for more information.
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/postcss.config.js ===
+
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/app/layout.tsx ===
+
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "Create Next App",
+  description: "Generated by create next app",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body className={inter.className}>{children}</body>
+    </html>
+  );
+}
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/app/(landing)/page.tsx ===
+
+import Link from "next/link";
+import localFont from "next/font/local";
+import { Poppins } from "next/font/google";
+
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+
+const headingFont = localFont({
+  src: "../../public/fonts/font.woff2",
+});
+
+const textFont = Poppins({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
+
+const LandingPage = () => {
+  return (
+    <div className="flex items-center justify-center flex-col">
+      <div
+        className={cn(
+          "flex items-center justify-center flex-col",
+          headingFont.className
+        )}
+      >
+        <h1 className="text-3xl md:text-6xl text-center text-neutral-800 mb-6">
+          Your main heading here
+        </h1>
+      </div>
+      <div
+        className={cn(
+          "text-sm md:text-xl text-neutral-400 mt-4 max-w-xs md:max-w-2xl text-center mx-auto",
+          textFont.className
+        )}
+      >
+        Your descriptive text here.
+      </div>
+      <Button className="mt-6" size="lg" asChild>
+        <Link href="/sign-up">Your Call to Action</Link>
+      </Button>
+    </div>
+  );
+};
+
+export default LandingPage;
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/app/(landing)/layout.tsx ===
+
+import { Footer } from "./_components/footer";
+import { Navbar } from "./_components/navbar";
+
+const LandingLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="h-full bg-slate-100">
+      <Navbar />
+      <main className="pt-40 pb-20 bg-slate-100">{children}</main>
+      <Footer />
+    </div>
+  );
+};
+
+export default LandingLayout;
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/app/(landing)/_components/footer.tsx ===
+
+import { Logo } from "@/components/logo";
+import { Button } from "@/components/ui/button";
+
+export const Footer = () => {
+  return (
+    <div className="fixed bottom-0 w-full p-4 border-t bg-slate-100">
+      <div className="md:max-w-screen-2xl mx-auto flex items-center w-full justify-between">
+        <Logo />
+        <div className="space-x-4 md:block md:w-auto flex items-center justify-between w-full">
+          <Button size="sm" variant="ghost">
+            Privacy Policy
+          </Button>
+          <Button size="sm" variant="ghost">
+            Terms of Service
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/app/(landing)/_components/navbar.tsx ===
+
+import Link from "next/link";
+
+import { Logo } from "@/components/logo";
+import { Button } from "@/components/ui/button";
+
+export const Navbar = () => {
+  return (
+    <div className="fixed top-0 w-full h-14 px-4 border-b shadow-sm bg-white flex items-center">
+      <div className="md:max-w-screen-2xl mx-auto flex items-center w-full justify-between">
+        <Logo />
+        <div className="space-x-4 md:block md:w-auto flex items-center justify-between w-full">
+          <Button size="sm" variant="outline" asChild>
+            <Link href="/sign-in">Login</Link>
+          </Button>
+          <Button size="sm" asChild>
+            <Link href="/sign-up">Your Call to Action</Link>
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/app/(platform)/layout.tsx ===
+
+import { ClerkProvider } from "@clerk/nextjs";
+import { Navbar } from "./_components/navbar";
+
+const PlarformLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <ClerkProvider>
+      <div className="h-full">
+        <Navbar />
+        <div className="h-full py-20">{children}</div>
+      </div>
+    </ClerkProvider>
+  );
+};
+
+export default PlarformLayout;
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/app/(platform)/(auth)/layout.tsx ===
+
+const ClerkLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="h-full flex items-center justify-center">{children}</div>
+  );
+};
+
+export default ClerkLayout;
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/app/(platform)/(auth)/sign-in/[[...sign-in]]/page.tsx ===
+
+import { SignIn } from "@clerk/nextjs";
+
+export default function Page() {
+  return <SignIn />;
+}
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/app/(platform)/(auth)/sign-up/[[...sign-up]]/page.tsx ===
+
+import { SignUp } from "@clerk/nextjs";
+
+export default function Page() {
+  return <SignUp />;
+}
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/app/(platform)/(modules)/module/page.tsx ===
+
+"use client";
+
+import React from "react";
+
+function DashBoard() {
+  return <div>DashBoard</div>;
+}
+
+export default DashBoard;
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/app/(platform)/_components/navbar-routes.tsx ===
+
+"use client";
+
+import { UserButton, useAuth } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
+import { LogOut } from "lucide-react";
+import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/mode-toggle";
+
+// import { SearchInput } from "./search-input";
+
+export const NavbarRoutes = () => {
+  const pathname = usePathname();
+
+  return (
+    <>
+      <div className="flex gap-x-3 ml-auto ">
+        <Link href="/module">
+          <Button variant="outline" className="hidden md:block rounded-full">
+            Module
+          </Button>
+        </Link>
+
+        <ModeToggle />
+        <div className="mt-1">
+          {" "}
+          <UserButton afterSignOutUrl="/" />
+        </div>
+      </div>
+    </>
+  );
+};
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/app/(platform)/_components/sidebar-item.tsx ===
+
+"use client";
+
+import { LucideIcon } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+
+import { cn } from "@/lib/utils";
+
+interface SidebarItemProps {
+  icon: LucideIcon;
+  label: string;
+  href: string;
+}
+
+export const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const isActive =
+    (pathname === "/" && href === "/") ||
+    pathname === href ||
+    pathname?.startsWith(`${href}/`);
+
+  const onClick = () => {
+    router.push(href);
+  };
+
+  return (
+    <button
+      onClick={onClick}
+      type="button"
+      className={cn(
+        "flex items-center gap-x-2 text-slate-500 text-sm font-[500] pl-6 transition-all hover:text-slate-600 hover:bg-slate-300/20",
+        isActive &&
+          "text-sky-700 bg-sky-200/20 hover:bg-sky-200/20 hover:text-sky-700"
+      )}
+    >
+      <div className="flex items-center gap-x-2 py-4">
+        <Icon
+          size={22}
+          className={cn("text-slate-500", isActive && "text-sky-700")}
+        />
+        {label}
+      </div>
+      <div
+        className={cn(
+          "ml-auto opacity-0 border-2 border-sky-700 h-full transition-all",
+          isActive && "opacity-100"
+        )}
+      />
+    </button>
+  );
+};
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/app/(platform)/_components/sidebar.tsx ===
+
+// import { Logo } from "./logo";
+import Link from "next/link";
+import { SidebarRoutes } from "./sidebar-routes";
+import { cn } from "@/lib/utils";
+import { Poppins } from "next/font/google";
+
+const font = Poppins({ weight: "600", subsets: ["latin"] });
+
+export const Sidebar = () => {
+  return (
+    <div className="h-full border-r flex flex-col overflow-y-auto bg-white shadow-sm z-80">
+      <div className="p-6">
+        <Link href="/">
+          <h1 className={cn("  font-bold text-primary", font.className)}>
+            Logo
+          </h1>
+        </Link>
+      </div>
+      <div className="flex flex-col w-full">
+        <SidebarRoutes />
+      </div>
+    </div>
+  );
+};
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/app/(platform)/_components/navbar.tsx ===
+
+import { NavbarRoutes } from "./navbar-routes";
+
+import { MobileSidebar } from "./mobile-sidebar";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { Poppins } from "next/font/google";
+const font = Poppins({ weight: "600", subsets: ["latin"] });
+
+export const Navbar = () => {
+  return (
+    // <div className="p-4 border-b h-full flex items-center bg-white shadow-sm">
+    <header className="w-full fixed  z-50 flex justify-between items-center py-2 px-4 h-16 border-b border-primary/10 bg-secondary">
+      <MobileSidebar />
+
+      <Link href="/">
+        <h1
+          className={cn(
+            "hidden md:block text-xl md:text-3xl font-bold text-primary",
+            font.className
+          )}
+        >
+          Logo
+        </h1>
+      </Link>
+
+      <NavbarRoutes />
+    </header>
+  );
+};
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/app/(platform)/_components/sidebar-routes.tsx ===
+
+"use client";
+
+import { Layout } from "lucide-react";
+import { SidebarItem } from "./sidebar-item";
+
+const userRoutes = [
+  {
+    icon: Layout,
+    label: "Module",
+    href: "/module",
+  },
+];
+
+export const SidebarRoutes = () => {
+  return (
+    <div className="flex flex-col w-full">
+      {userRoutes.map((route) => (
+        <SidebarItem
+          key={route.href}
+          icon={route.icon}
+          label={route.label}
+          href={route.href}
+        />
+      ))}
+    </div>
+  );
+};
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/app/(platform)/_components/mobile-sidebar.tsx ===
+
+import { Menu } from "lucide-react";
+
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sidebar } from "./sidebar";
+
+export const MobileSidebar = () => {
+  return (
+    <Sheet>
+      <SheetTrigger className="md:hidden pr-4 hover:opacity-75 transition">
+        <Menu />
+      </SheetTrigger>
+      <SheetContent side="left" className="p-0">
+        <Sidebar />
+      </SheetContent>
+    </Sheet>
+  );
+};
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/lib/utils.ts ===
+
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/components/mode-toggle.tsx ===
+
+"use client";
+
+import * as React from "react";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+export const ModeToggle = () => {
+  const { setTheme } = useTheme();
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="secondary" size="icon">
+          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => setTheme("light")}>
+          Light
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("dark")}>
+          Dark
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("system")}>
+          System
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/components/logo.tsx ===
+
+import Link from "next/link";
+import Image from "next/image";
+import localFont from "next/font/local";
+
+import { cn } from "@/lib/utils";
+
+const headingFont = localFont({
+  src: "../public/fonts/font.woff2",
+});
+
+export const Logo = () => {
+  return (
+    <Link href="/">
+      <div className="hover:opacity-75 transition items-center gap-x-2 hidden md:flex">
+        <Image src="/logo.svg" alt="Logo" height={30} width={30} />
+        <p
+          className={cn("text-lg text-neutral-700 pb-1", headingFont.className)}
+        >
+          Logo
+        </p>
+      </div>
+    </Link>
+  );
+};
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/components/ui/sheet.tsx ===
+
+"use client"
+
+import * as React from "react"
+import * as SheetPrimitive from "@radix-ui/react-dialog"
+import { cva, type VariantProps } from "class-variance-authority"
+import { X } from "lucide-react"
+
+import { cn } from "@/lib/utils"
+
+const Sheet = SheetPrimitive.Root
+
+const SheetTrigger = SheetPrimitive.Trigger
+
+const SheetClose = SheetPrimitive.Close
+
+const SheetPortal = SheetPrimitive.Portal
+
+const SheetOverlay = React.forwardRef<
+  React.ElementRef<typeof SheetPrimitive.Overlay>,
+  React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>
+>(({ className, ...props }, ref) => (
+  <SheetPrimitive.Overlay
+    className={cn(
+      "fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      className
+    )}
+    {...props}
+    ref={ref}
+  />
+))
+SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
+
+const sheetVariants = cva(
+  "fixed z-50 gap-4 bg-background p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500",
+  {
+    variants: {
+      side: {
+        top: "inset-x-0 top-0 border-b data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
+        bottom:
+          "inset-x-0 bottom-0 border-t data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
+        left: "inset-y-0 left-0 h-full w-3/4 border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm",
+        right:
+          "inset-y-0 right-0 h-full w-3/4  border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm",
+      },
+    },
+    defaultVariants: {
+      side: "right",
+    },
+  }
+)
+
+interface SheetContentProps
+  extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
+    VariantProps<typeof sheetVariants> {}
+
+const SheetContent = React.forwardRef<
+  React.ElementRef<typeof SheetPrimitive.Content>,
+  SheetContentProps
+>(({ side = "right", className, children, ...props }, ref) => (
+  <SheetPortal>
+    <SheetOverlay />
+    <SheetPrimitive.Content
+      ref={ref}
+      className={cn(sheetVariants({ side }), className)}
+      {...props}
+    >
+      {children}
+      <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
+        <X className="h-4 w-4" />
+        <span className="sr-only">Close</span>
+      </SheetPrimitive.Close>
+    </SheetPrimitive.Content>
+  </SheetPortal>
+))
+SheetContent.displayName = SheetPrimitive.Content.displayName
+
+const SheetHeader = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
+  <div
+    className={cn(
+      "flex flex-col space-y-2 text-center sm:text-left",
+      className
+    )}
+    {...props}
+  />
+)
+SheetHeader.displayName = "SheetHeader"
+
+const SheetFooter = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
+  <div
+    className={cn(
+      "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
+      className
+    )}
+    {...props}
+  />
+)
+SheetFooter.displayName = "SheetFooter"
+
+const SheetTitle = React.forwardRef<
+  React.ElementRef<typeof SheetPrimitive.Title>,
+  React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>
+>(({ className, ...props }, ref) => (
+  <SheetPrimitive.Title
+    ref={ref}
+    className={cn("text-lg font-semibold text-foreground", className)}
+    {...props}
+  />
+))
+SheetTitle.displayName = SheetPrimitive.Title.displayName
+
+const SheetDescription = React.forwardRef<
+  React.ElementRef<typeof SheetPrimitive.Description>,
+  React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>
+>(({ className, ...props }, ref) => (
+  <SheetPrimitive.Description
+    ref={ref}
+    className={cn("text-sm text-muted-foreground", className)}
+    {...props}
+  />
+))
+SheetDescription.displayName = SheetPrimitive.Description.displayName
+
+export {
+  Sheet,
+  SheetPortal,
+  SheetOverlay,
+  SheetTrigger,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetFooter,
+  SheetTitle,
+  SheetDescription,
+}
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/components/ui/dropdown-menu.tsx ===
+
+"use client"
+
+import * as React from "react"
+import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
+import { Check, ChevronRight, Circle } from "lucide-react"
+
+import { cn } from "@/lib/utils"
+
+const DropdownMenu = DropdownMenuPrimitive.Root
+
+const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
+
+const DropdownMenuGroup = DropdownMenuPrimitive.Group
+
+const DropdownMenuPortal = DropdownMenuPrimitive.Portal
+
+const DropdownMenuSub = DropdownMenuPrimitive.Sub
+
+const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup
+
+const DropdownMenuSubTrigger = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.SubTrigger>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubTrigger> & {
+    inset?: boolean
+  }
+>(({ className, inset, children, ...props }, ref) => (
+  <DropdownMenuPrimitive.SubTrigger
+    ref={ref}
+    className={cn(
+      "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent",
+      inset && "pl-8",
+      className
+    )}
+    {...props}
+  >
+    {children}
+    <ChevronRight className="ml-auto h-4 w-4" />
+  </DropdownMenuPrimitive.SubTrigger>
+))
+DropdownMenuSubTrigger.displayName =
+  DropdownMenuPrimitive.SubTrigger.displayName
+
+const DropdownMenuSubContent = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.SubContent>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubContent>
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.SubContent
+    ref={ref}
+    className={cn(
+      "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+      className
+    )}
+    {...props}
+  />
+))
+DropdownMenuSubContent.displayName =
+  DropdownMenuPrimitive.SubContent.displayName
+
+const DropdownMenuContent = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
+>(({ className, sideOffset = 4, ...props }, ref) => (
+  <DropdownMenuPrimitive.Portal>
+    <DropdownMenuPrimitive.Content
+      ref={ref}
+      sideOffset={sideOffset}
+      className={cn(
+        "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+        className
+      )}
+      {...props}
+    />
+  </DropdownMenuPrimitive.Portal>
+))
+DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName
+
+const DropdownMenuItem = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
+    inset?: boolean
+  }
+>(({ className, inset, ...props }, ref) => (
+  <DropdownMenuPrimitive.Item
+    ref={ref}
+    className={cn(
+      "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      inset && "pl-8",
+      className
+    )}
+    {...props}
+  />
+))
+DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName
+
+const DropdownMenuCheckboxItem = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem>
+>(({ className, children, checked, ...props }, ref) => (
+  <DropdownMenuPrimitive.CheckboxItem
+    ref={ref}
+    className={cn(
+      "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      className
+    )}
+    checked={checked}
+    {...props}
+  >
+    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+      <DropdownMenuPrimitive.ItemIndicator>
+        <Check className="h-4 w-4" />
+      </DropdownMenuPrimitive.ItemIndicator>
+    </span>
+    {children}
+  </DropdownMenuPrimitive.CheckboxItem>
+))
+DropdownMenuCheckboxItem.displayName =
+  DropdownMenuPrimitive.CheckboxItem.displayName
+
+const DropdownMenuRadioItem = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.RadioItem>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.RadioItem>
+>(({ className, children, ...props }, ref) => (
+  <DropdownMenuPrimitive.RadioItem
+    ref={ref}
+    className={cn(
+      "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      className
+    )}
+    {...props}
+  >
+    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+      <DropdownMenuPrimitive.ItemIndicator>
+        <Circle className="h-2 w-2 fill-current" />
+      </DropdownMenuPrimitive.ItemIndicator>
+    </span>
+    {children}
+  </DropdownMenuPrimitive.RadioItem>
+))
+DropdownMenuRadioItem.displayName = DropdownMenuPrimitive.RadioItem.displayName
+
+const DropdownMenuLabel = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Label>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label> & {
+    inset?: boolean
+  }
+>(({ className, inset, ...props }, ref) => (
+  <DropdownMenuPrimitive.Label
+    ref={ref}
+    className={cn(
+      "px-2 py-1.5 text-sm font-semibold",
+      inset && "pl-8",
+      className
+    )}
+    {...props}
+  />
+))
+DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName
+
+const DropdownMenuSeparator = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.Separator
+    ref={ref}
+    className={cn("-mx-1 my-1 h-px bg-muted", className)}
+    {...props}
+  />
+))
+DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName
+
+const DropdownMenuShortcut = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement>) => {
+  return (
+    <span
+      className={cn("ml-auto text-xs tracking-widest opacity-60", className)}
+      {...props}
+    />
+  )
+}
+DropdownMenuShortcut.displayName = "DropdownMenuShortcut"
+
+export {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuCheckboxItem,
+  DropdownMenuRadioItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuGroup,
+  DropdownMenuPortal,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuRadioGroup,
+}
+
+
+=== Content of /home/sam/github/nextjs-saas-starter/components/ui/button.tsx ===
+
+Code present but not reported for space reasons
