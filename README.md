@@ -1,1 +1,1 @@
-# nextjs-fastapi-saas-starter
+# nextjs-saas-starter
