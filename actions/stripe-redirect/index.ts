@@ -2,10 +2,9 @@
 
 import { auth, currentUser } from "@clerk/nextjs";
 import { revalidatePath } from "next/cache";
-import { ACTION, ENTITY_TYPE } from "@prisma/client";
 
 import { db } from "@/lib/db";
-import { createAuditLog } from "@/lib/create-audit-log";
+
 import { createSafeAction } from "@/lib/create-safe-action";
 
 import { StripeRedirect } from "./schema";
@@ -15,29 +14,29 @@ import { absoluteUrl } from "@/lib/utils";
 import { stripe } from "@/lib/stripe";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-  const { userId, orgId } = auth();
+  const { userId } = auth();
   const user = await currentUser();
 
-  if (!userId || !orgId || !user) {
+  if (!userId || !user) {
     return {
       error: "Unauthorized",
     };
   }
 
-  const settingsUrl = absoluteUrl(`/organization/${orgId}`);
+  const settingsUrl = absoluteUrl(`/settings`);
 
   let url = "";
 
   try {
-    const orgSubscription = await db.orgSubscription.findUnique({
+    const userSubscription = await db.userSubscription.findUnique({
       where: {
-        orgId,
-      }
+        userId,
+      },
     });
 
-    if (orgSubscription && orgSubscription.stripeCustomerId) {
+    if (userSubscription && userSubscription.stripeCustomerId) {
       const stripeSession = await stripe.billingPortal.sessions.create({
-        customer: orgSubscription.stripeCustomerId,
+        customer: userSubscription.stripeCustomerId,
         return_url: settingsUrl,
       });
 
@@ -55,19 +54,19 @@ const handler = async (data: InputType): Promise<ReturnType> => {
             price_data: {
               currency: "USD",
               product_data: {
-                name: "Taskify Pro",
-                description: "Unlimited boards for your organization"
+                name: "Pro",
+                description: "Unlimited Access to Pro Features",
               },
               unit_amount: 2000,
               recurring: {
-                interval: "month"
+                interval: "month",
               },
             },
             quantity: 1,
           },
         ],
         metadata: {
-          orgId,
+          userId,
         },
       });
 
@@ -75,11 +74,11 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     }
   } catch {
     return {
-      error: "Something went wrong!"
-    }
-  };
+      error: "Something went wrong!",
+    };
+  }
 
-  revalidatePath(`/organization/${orgId}`);
+  revalidatePath(`/settings`);
   return { data: url };
 };
 
