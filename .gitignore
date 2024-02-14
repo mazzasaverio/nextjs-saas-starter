@@ -1,5 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+code_report.py
+custom_tree_and_files_corrected.txt
 .env
 
 # dependencies
