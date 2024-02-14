@@ -102,18 +102,17 @@ Go to the middleware and add `publicRoutes: ["/"]`.
 
 11. **Create `lib/db.ts` File**
 
-    ````ts
+    ```tsx
     import { PrismaClient } from "@prisma/client";
 
-        declare global {
-          var prisma: PrismaClient | undefined;
-        };
+    declare global {
+      var prisma: PrismaClient | undefined;
+    }
 
-        export const db = globalThis.prisma || new PrismaClient();
+    export const db = globalThis.prisma || new PrismaClient();
 
-        if (process.env.NODE_ENV !== "production") globalThis.prisma = db;
-        ```
-    ````
+    if (process.env.NODE_ENV !== "production") globalThis.prisma = db;
+    ```
 
 ### Stripe Integration
 
@@ -485,9 +484,9 @@ Trigger specific events using the Stripe CLI to test your webhook.
 stripe trigger payment_intent.succeeded
 ```
 
-#### Creating the Billing Page
+### Creating the Billing Page
 
-Now, let's create the billing page.
+Let's proceed with creating the billing page for our SaaS application. This page will allow users to manage their subscriptions and access to the Pro features.
 
 ```jsx
 import { checkSubscription } from "@/lib/subscription";
@@ -510,40 +509,49 @@ const BillingPage = async () => {
 export default BillingPage;
 ```
 
-#### Enabling the Billing Portal
+### Enabling the Billing Portal
 
-Finally, enable the billing portal in your Stripe dashboard in settings/billing/portal
+To provide users with a seamless experience, we should enable the billing portal in the Stripe dashboard. This can be done by navigating to the settings/billing/portal section of the Stripe dashboard.
 
-## Deploy
+### Deployment
 
-Per prima copsa aggiungiamo in package.json
+Before deploying our application, we need to make a few adjustments to our `package.json` file to ensure that Prisma Client is generated during the build process. This is important because Vercel caches dependencies, and we want to avoid using an outdated version of Prisma Client.
 
-"postinstall": "prisma generate"
+Update the `scripts` section in `package.json` to include the `postinstall` command:
 
-in
+```json
 "scripts": {
-"dev": "next dev",
-"build": "next build",
-"start": "next start",
-"lint": "next lint",
-"postinstall": "prisma generate"
-},
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "lint": "next lint",
+  "postinstall": "prisma generate"
+}
+```
 
-Puschiamo tutto su github
+After making these changes, push the updates to GitHub and proceed to deploy on Vercel.
 
-Andiamo su vercel
+### Connecting Vercel to MongoDB Atlas
 
-Refercence and ispiration
+To connect Vercel to MongoDB Atlas, follow the instructions provided by MongoDB Atlas for the new integration. This will ensure that your application can securely access the database.
 
-https://github.com/AntonioErdeljac/next13-trello/blob/master/components/modals/pro-modal.tsx
-https://github.com/AntonioErdeljac/next13-ai-saas/blob/master/prisma/schema.prisma
+### Generating Prisma Client During Build
 
-Creaiamo un nuovo progetto
+It's important to generate Prisma Client during the build process to ensure that the client is always up-to-date with the latest schema changes. This can be done by adding `prisma generate` to the `postinstall` script in your `package.json` file.
 
-Selezioniamo e copiamo tutte le env
+If you encounter `prisma: command not found` errors during deployment, ensure that Prisma is included in your standard dependencies, as it is a dev dependency by default.
 
-Ora modifichiamo stripe webook per usaarlo in production
+For more information on deploying Prisma to Vercel, refer to the [Prisma documentation](https://www.prisma.io/docs/orm/prisma-client/deployment/serverless/deploy-to-vercel).
 
-Dobbiamo anche connettere vercel a mongodb atlas
+### Updating Stripe Webhook for Production
 
-https://www.mongodb.com/developer/products/atlas/how-to-connect-mongodb-atlas-to-vercel-using-the-new-integration/
+When deploying to production, you'll need to update the Stripe webhook to use the production environment. This involves copying the new webhook URL from your Stripe dashboard and pasting it into the Vercel environment variables. Additionally, you'll need to update the `NEXT_PUBLIC_APP_URL` variable in your `.env` file to reflect the new deployment URL.
+
+After updating the environment variables, redeploy your application on Vercel to apply the changes.
+
+### References and Inspiration
+
+For further inspiration and reference, you can check out the following repositories:
+
+- [AntonioErdeljac/next13-trello](https://github.com/AntonioErdeljac/next13-trello/blob/master/components/modals/pro-modal.tsx)
+- [AntonioErdeljac/next13-ai-saas](https://github.com/AntonioErdeljac/next13-ai-saas/blob/master/prisma/schema.prisma)
