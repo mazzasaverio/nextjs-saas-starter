@@ -537,3 +537,13 @@ Refercence and ispiration
 
 https://github.com/AntonioErdeljac/next13-trello/blob/master/components/modals/pro-modal.tsx
 https://github.com/AntonioErdeljac/next13-ai-saas/blob/master/prisma/schema.prisma
+
+Creaiamo un nuovo progetto
+
+Selezioniamo e copiamo tutte le env
+
+Ora modifichiamo stripe webook per usaarlo in production
+
+Dobbiamo anche connettere vercel a mongodb atlas
+
+https://www.mongodb.com/developer/products/atlas/how-to-connect-mongodb-atlas-to-vercel-using-the-new-integration/
