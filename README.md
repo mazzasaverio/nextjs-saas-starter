@@ -1,10 +1,10 @@
-### Template Starter and Lean
+### Next.js SaaS Starter Template
 
 This serves as a template starter and lean for building an effective frontend from which to start building a SaaS with the following features:
 
 #### Features
 
-- Use Next.js, TypeScript, and Shadcn
+- Use Next.js, TypeScript, Tailwind and Shadcn
 - Authentication with Clerk
 - Public landing page and platform wrapped with Clerk and Pro Modals
 - Use Prisma with MongoDB for managing subscriptions

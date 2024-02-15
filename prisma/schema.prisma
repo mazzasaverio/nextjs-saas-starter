@@ -17,3 +17,10 @@ model UserSubscription {
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
 }
 
+model UserProfile {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String   @map("user_id")
+  description   String?  // Free text field for describing interests
+  interests     String?  // Free text field for listing interests
+  city          String?  // Field for the city where the user lives
+}

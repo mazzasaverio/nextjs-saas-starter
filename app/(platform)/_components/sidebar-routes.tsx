@@ -9,6 +9,16 @@ const userRoutes = [
     label: "Home",
     href: "/home",
   },
+  {
+    icon: Layout,
+    label: "Billing",
+    href: "/Billing",
+  },
+  {
+    icon: Layout,
+    label: "Settings",
+    href: "/settings",
+  },
 ];
 
 export const SidebarRoutes = () => {
